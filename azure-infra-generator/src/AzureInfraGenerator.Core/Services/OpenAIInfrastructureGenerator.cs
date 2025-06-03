@@ -11,7 +11,7 @@ namespace AzureInfraGenerator.Core.Services
     /// <summary>
     /// Infrastructure script generator with advanced features
     /// </summary>
-    public class OpenAIInfrastructureGenerator : IInfrastructureGenerator
+    public class InfrastructureGenerator : IInfrastructureGenerator
     {
         private readonly IAIModelProvider _modelProvider;
         private readonly IScriptCache _scriptCache;

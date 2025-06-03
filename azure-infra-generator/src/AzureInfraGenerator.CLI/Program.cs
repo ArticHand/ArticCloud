@@ -41,14 +41,24 @@ class Program
         // Add cache invalidation
         services.AddCacheInvalidation();
 
-        // Add OpenAI model provider (you'll need to implement this)
-        services.AddSingleton<IAIModelProvider, OpenAIModelProvider>();
+        // Register AI providers
+        services.AddSingleton<OpenAIModelProvider>();
+        services.AddSingleton<ClaudeModelProvider>();
+        
+        // Add AI provider factory
+        services.AddSingleton<AIModelProviderFactory>();
+        
+        // Add AI provider using factory
+        services.AddSingleton<IAIModelProvider>(provider => {
+            var factory = provider.GetRequiredService<AIModelProviderFactory>();
+            return factory.CreateProvider();
+        });
 
         // Add script validator
         services.AddSingleton<IScriptValidator, BasicScriptValidator>();
 
         // Add infrastructure generator
-        services.AddSingleton<IInfrastructureGenerator, OpenAIInfrastructureGenerator>();
+        services.AddSingleton<IInfrastructureGenerator, InfrastructureGenerator>();
 
         // Add Azure deployment service
         services.AddSingleton<IAzureDeploymentService, AzureDeploymentService>();
